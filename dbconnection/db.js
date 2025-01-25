@@ -1,21 +1,10 @@
-const { Sequelize } = require('sequelize');
-const dbconfig = require('../dbconfig'); // Asegúrate de que la ruta es correcta
+const Sequelize = require('sequelize');
 
-const database = new Sequelize(dbconfig.db, {
-  dialect: 'postgres',
-  dialectOptions: {
-    connectTimeout: 60000 // 60 segundos
-  },
-  // otras configuraciones si las tienes
+const sequelize = new Sequelize(process.env.DATABASE, process.env.USERNAME, process.env.PASSWORD, {
+  host: process.env.HOST,
+  port: parseInt(process.env.PORT),
+  dialect: process.env.DIALECT, // Agrega esta línea
+  dialectModule: require('pg'), // Agrega esta línea si estás utilizando PostgreSQL
 });
 
-database
-  .authenticate()
-  .then(() => {
-    console.log('DataBase Connected!');
-  })
-  .catch((error) => {
-    console.log(`error connecting database:`, error);
-  });
-
-module.exports = database;
+module.exports = sequelize;
