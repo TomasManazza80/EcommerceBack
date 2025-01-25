@@ -1,19 +1,7 @@
 require("dotenv").config();
 
-module.exports = {
-  "db": {
-  //   "database": process.env.database,
-  //   "username": process.env.username,
-  //   "password": process.env.password,
-  //  " port": process.env.port,
-  //   "host": process.env.host,
-  //   "dialect": process.env.dialect,
+module.exports = require('./dbconnection/db');
 
-  "database": "postgres",
-  "username": "postgres",
-  "password": "password",
-  "host": "localhost",
-  "port": 5432,
-  "dialect": "postgres"
-  },
+module.exports = {
+  "db": "postgresql://namnam:4JIehbCSj30YL9WyeX7HZGywg5j67xw4@dpg-cua1im1u0jms73fla1n0-a.oregon-postgres.render.com/ecommerce_qyod"
 };
