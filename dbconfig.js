@@ -6,7 +6,7 @@ module.exports = {
     "username": process.env.USERNAME,
     "password": process.env.PASSWORD,
     "host": process.env.HOST,
-    "port": parseInt(process.env.PORT), // Agrega parseInt aquí
+    "port": parseInt(process.env.PORT), 
     "dialect": process.env.DIALECT
   },
 };
