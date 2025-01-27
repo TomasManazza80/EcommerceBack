@@ -90,6 +90,19 @@ const updateUser = async (data) => {
   }
 };
 
+const updateUserRole = async (userId) => {
+  try {
+    await model.user.update(
+      { role: "admin" },
+      { where: { id: userId } }
+    );
+    return true;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 const deleteUser = async () => {};
 
-module.exports = { login, createUser, updateUser, deleteUser, getRoleByEmail, getAllUsers };
+module.exports = { login, createUser, updateUserRole, updateUser, deleteUser, getRoleByEmail, getAllUsers };
