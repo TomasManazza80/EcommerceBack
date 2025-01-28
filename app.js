@@ -30,6 +30,8 @@ app.use(function (req, res, next) {
   next(createError(404));
 });
 
+app.set("view engine", "ejs");
+
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
