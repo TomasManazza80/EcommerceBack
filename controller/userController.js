@@ -56,21 +56,6 @@ const getRole = async (req, res) => {
 
 
 
-const createAdmin = async (req, res) => {
-  try {
-    const userId = req.params.id;
-    const isUpdated = await userService.updateUserRoleToAdmin(userId);
-    if (isUpdated) {
-      res.sendStatus(200);
-    } else {
-      res.sendStatus(404);
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error");
-  }
-};
-
 const updateUser = async (req, res) => {
   try {
     const userdata = req.body;
@@ -107,4 +92,4 @@ const getAllUsers = async (req, res) => {
 
 const deleteUser = async (req, res) => {};
 
-module.exports = { loginUser, createUser, createAdmin, updateUser, deleteUser, getRole, getAllUsers };
+module.exports = { loginUser, createUser, updateUser, deleteUser, getRole, getAllUsers };
