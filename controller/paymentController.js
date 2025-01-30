@@ -1,6 +1,9 @@
+const express = require('express');
+const router = express.Router();
 const vexor = require('vexor');
 const dotenv = require('dotenv');
 
+const paymentService = require('../payment/paymentService');
 dotenv.config();
 const { Vexor } = vexor;
 
@@ -24,7 +27,7 @@ const createPayment = async (req, res) => {
 
   try {
     console.log('Datos del producto:', product);
-    
+
     const paymentResponse = await vexorInstance.pay.mercadopago({
       items: [
         {
@@ -48,4 +51,19 @@ const createPayment = async (req, res) => {
   }
 };
 
-module.exports = { createPayment };
+const handleWebhook = async (req, res) => {
+  try {
+    const webhookData = req.body;
+    console.log('Datos del webhook:', webhookData);
+
+    // Procesa los datos del webhook aquí
+    // Por ejemplo, podrías actualizar el estado del pago en tu base de datos
+
+    res.status(200).send('Webhook recibido');
+  } catch (error) {
+    console.error('Error al manejar el webhook:', error);
+    res.status(500).json({ error: 'Error al procesar el webhook' });
+  }
+};
+
+module.exports = { createPayment, handleWebhook };
