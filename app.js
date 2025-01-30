@@ -26,6 +26,8 @@ app.use(`${BASE_URL}users`, usersRouter);
 app.use(`${BASE_URL}products`, productRouter);
 app.use(`${BASE_URL}`, paymentRouter);
 
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 app.use(function (req, res, next) {
   next(createError(404));
