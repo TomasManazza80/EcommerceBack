@@ -1,6 +1,6 @@
 const vexor = require('vexor');
 const dotenv = require('dotenv');
-const {createPaymentFromService} = require('../payment/paymentService');
+const { createPreference } = require('../payment/paymentService'); // Importar el servicio createPreference
 const productService = require('../services/productService'); // Asegúrate de que la ruta sea correcta
 
 dotenv.config();
@@ -58,7 +58,7 @@ const handleWebhook = async (req, res) => {
     const paymentId = webhookData.data.id;
 
     // Solicitar detalles del pago
-    const payment = await createPaymentFromService(paymentId);
+    const payment = await createPreference(paymentId);
 
     if (payment && payment.status === 'approved') {
       const items = payment.items;
