@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const paymentService = require('../services/paymentService');
+const paymentService = require('../payment/paymentService');
 
 router.post('/create', async (req, res) => {
   try {
