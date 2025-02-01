@@ -1,11 +1,12 @@
 const mercadopago = require('mercadopago');
 
-// Configura el access_token directamente
-mercadopago.configurations = {
-  access_token: 'APP_USR-8101026874292077-101721-08438cf8d2ed21fe5947641f4ae99cd8-2015493826'
-};
+const createPreference = async (createPaymentDto, id) => {
+  const client = {
+    access_token: 'APP_USR-8101026874292077-101721-08438cf8d2ed21fe5947641f4ae99cd8-2015493826',
+  };
 
-const createPaymentFromService = async (createPaymentDto, id) => {
+  mercadopago.configure(client);
+
   const preferenceData = {
     items: [
       {
@@ -16,7 +17,7 @@ const createPaymentFromService = async (createPaymentDto, id) => {
       },
     ],
     back_urls: {
-      success: 'https://ecommerceback-server.onrender.com/webhook',
+      success: 'http://localhost:5173/user/allcredits',
       failure: 'http://localhost:5173/user/allcredits',
       pending: 'http://localhost:5173/user/allcredits',
     },
@@ -33,5 +34,5 @@ const createPaymentFromService = async (createPaymentDto, id) => {
 };
 
 module.exports = {
-  createPaymentFromService,
+  createPreference,
 };
