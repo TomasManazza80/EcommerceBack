@@ -24,6 +24,8 @@ const vexorInstance = new Vexor({
 });
 
 
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 
 
 
