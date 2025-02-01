@@ -1,3 +1,20 @@
+import dotenv from 'dotenv';
+import Vexor from 'vexor';
+import createPaymentFromService from '../payment/paymentService.js';
+
+dotenv.config();
+
+const vexorInstance = new Vexor({
+  publishableKey: process.env.VEXOR_PUBLISHABLE_KEY,
+  projectId: process.env.VEXOR_PROJECT_ID,
+  apiKey: process.env.VEXOR_API_KEY,
+});
+
+// Log para depuración
+console.log('Clave pública:', process.env.VEXOR_PUBLISHABLE_KEY);
+console.log('ID del proyecto:', process.env.VEXOR_PROJECT_ID);
+console.log('Clave API:', process.env.VEXOR_API_KEY);
+
 export const createPayment = async (req, res) => {
   const { product } = req.body;
 
@@ -7,7 +24,7 @@ export const createPayment = async (req, res) => {
 
   try {
     console.log('Datos del producto:', product);
-
+    
     const paymentResponse = await vexorInstance.pay.mercadopago({
       items: [
         {
