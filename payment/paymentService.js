@@ -17,7 +17,7 @@ const createPreference = async (createPaymentDto, id) => {
       },
     ],
     back_urls: {
-      success: 'http://localhost:5173/user/allcredits',
+      success: 'https://ecommerceback-server.onrender.com/webhook',
       failure: 'http://localhost:5173/user/allcredits',
       pending: 'http://localhost:5173/user/allcredits',
     },
