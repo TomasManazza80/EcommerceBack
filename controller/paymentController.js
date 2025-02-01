@@ -1,4 +1,5 @@
-const PaymentService = require('../services/paymentService'); // O definirlo aquí
+import createPayment from "../payment/paymentService.js";
+
 
 const vexor = require('vexor');
 const dotenv = require('dotenv');
