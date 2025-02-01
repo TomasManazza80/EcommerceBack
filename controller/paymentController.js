@@ -1,8 +1,8 @@
-import dotenv from 'dotenv';
-import Vexor from 'vexor';
-import createPaymentFromService from '../payment/paymentService.js';
+const vexor = require('vexor');
+const dotenv = require('dotenv');
 
 dotenv.config();
+const { Vexor } = vexor;
 
 const vexorInstance = new Vexor({
   publishableKey: process.env.VEXOR_PUBLISHABLE_KEY,
@@ -15,7 +15,7 @@ console.log('Clave pública:', process.env.VEXOR_PUBLISHABLE_KEY);
 console.log('ID del proyecto:', process.env.VEXOR_PROJECT_ID);
 console.log('Clave API:', process.env.VEXOR_API_KEY);
 
-export const createPayment = async (req, res) => {
+const createPayment = async (req, res) => {
   const { product } = req.body;
 
   if (!product || !product.title || !product.unit_price || !product.quantity) {
@@ -40,7 +40,7 @@ export const createPayment = async (req, res) => {
     if (paymentResponse && paymentResponse.payment_url) {
       res.status(200).json({ payment_url: paymentResponse.payment_url });
     } else {
-      throw new Error('Respuesta de pago inválida');
+      throw new Error('Invalid payment response');
     }
   } catch (error) {
     console.error('Error al crear el pago:', error);
@@ -48,7 +48,10 @@ export const createPayment = async (req, res) => {
   }
 };
 
-export const handleWebhook = async (req, res) => {
+
+
+
+const handleWebhook = async (req, res) => {
   try {
     const webhookData = req.body;
     console.log('Datos del webhook:', webhookData);
@@ -56,11 +59,11 @@ export const handleWebhook = async (req, res) => {
     const paymentId = webhookData.data.id;
 
     // Solicitar detalles del pago
-    const payment = await createPaymentFromService(paymentId);
-
+    const payment = await PaymentService.findPaymentById(paymentId);
+ 
     if (payment && payment.status === 'approved') {
       const items = payment.items;
-      console.log('Estos son mis Items:', items);
+      console.log('estos son mis Items:', items);
 
       for (const item of items) {
         const productId = item.id;
@@ -79,3 +82,5 @@ export const handleWebhook = async (req, res) => {
     res.status(500).json({ error: 'Error al procesar el webhook' });
   }
 };
+
+module.exports = { createPayment, handleWebhook};
