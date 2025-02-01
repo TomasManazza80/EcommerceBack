@@ -1,6 +1,9 @@
 const mercadopago = require('mercadopago');
 
-mercadopago.configurations.setAccessToken('APP_USR-8101026874292077-101721-08438cf8d2ed21fe5947641f4ae99cd8-2015493826');
+// Configura el access_token directamente
+mercadopago.configurations = {
+  access_token: 'APP_USR-8101026874292077-101721-08438cf8d2ed21fe5947641f4ae99cd8-2015493826'
+};
 
 const createPaymentFromService = async (createPaymentDto, id) => {
   const preferenceData = {
