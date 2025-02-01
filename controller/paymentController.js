@@ -1,23 +1,4 @@
-import createPaymentFromService from "../payment/paymentService.js";
-
-const vexor = require('vexor');
-const dotenv = require('dotenv');
-
-dotenv.config();
-const { Vexor } = vexor;
-
-const vexorInstance = new Vexor({
-  publishableKey: process.env.VEXOR_PUBLISHABLE_KEY,
-  projectId: process.env.VEXOR_PROJECT_ID,
-  apiKey: process.env.VEXOR_API_KEY,
-});
-
-// Log para depuración
-console.log('Clave pública:', process.env.VEXOR_PUBLISHABLE_KEY);
-console.log('ID del proyecto:', process.env.VEXOR_PROJECT_ID);
-console.log('Clave API:', process.env.VEXOR_API_KEY);
-
-const createPayment = async (req, res) => {
+export const createPayment = async (req, res) => {
   const { product } = req.body;
 
   if (!product || !product.title || !product.unit_price || !product.quantity) {
@@ -26,7 +7,7 @@ const createPayment = async (req, res) => {
 
   try {
     console.log('Datos del producto:', product);
-    
+
     const paymentResponse = await vexorInstance.pay.mercadopago({
       items: [
         {
@@ -50,7 +31,7 @@ const createPayment = async (req, res) => {
   }
 };
 
-const handleWebhook = async (req, res) => {
+export const handleWebhook = async (req, res) => {
   try {
     const webhookData = req.body;
     console.log('Datos del webhook:', webhookData);
@@ -59,7 +40,7 @@ const handleWebhook = async (req, res) => {
 
     // Solicitar detalles del pago
     const payment = await createPaymentFromService(paymentId);
- 
+
     if (payment && payment.status === 'approved') {
       const items = payment.items;
       console.log('Estos son mis Items:', items);
@@ -81,5 +62,3 @@ const handleWebhook = async (req, res) => {
     res.status(500).json({ error: 'Error al procesar el webhook' });
   }
 };
-
-module.exports = { createPayment, handleWebhook };
