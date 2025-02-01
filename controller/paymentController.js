@@ -1,5 +1,4 @@
-import createPayments from "../payment/paymentService.js";
-
+import createPaymentFromService from "../payment/paymentService.js";
 
 const vexor = require('vexor');
 const dotenv = require('dotenv');
@@ -43,16 +42,13 @@ const createPayment = async (req, res) => {
     if (paymentResponse && paymentResponse.payment_url) {
       res.status(200).json({ payment_url: paymentResponse.payment_url });
     } else {
-      throw new Error('Invalid payment response');
+      throw new Error('Respuesta de pago inválida');
     }
   } catch (error) {
     console.error('Error al crear el pago:', error);
     res.status(500).json({ error: 'Error al procesar el pago' });
   }
 };
-
-
-
 
 const handleWebhook = async (req, res) => {
   try {
@@ -62,11 +58,11 @@ const handleWebhook = async (req, res) => {
     const paymentId = webhookData.data.id;
 
     // Solicitar detalles del pago
-    const payment = await PaymentService.findPaymentById(paymentId);
+    const payment = await createPaymentFromService(paymentId);
  
     if (payment && payment.status === 'approved') {
       const items = payment.items;
-      console.log('estos son mis Items:', items);
+      console.log('Estos son mis Items:', items);
 
       for (const item of items) {
         const productId = item.id;
@@ -86,4 +82,4 @@ const handleWebhook = async (req, res) => {
   }
 };
 
-module.exports = { createPayment, handleWebhook};
+module.exports = { createPayment, handleWebhook };
