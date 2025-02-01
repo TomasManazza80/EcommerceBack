@@ -81,6 +81,7 @@ const productService = {
       throw error;
     }
   },
+  
 
   async deleteProduct(id) {
     try {

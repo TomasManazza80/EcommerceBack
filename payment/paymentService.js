@@ -1,5 +1,6 @@
 const mercadopago = require('mercadopago');
-
+const productService = require('../services/productService');
+console.log(productService);
 const createPreference = async (createPaymentDto, id) => {
   const client = {
     access_token: 'APP_USR-8101026874292077-101721-08438cf8d2ed21fe5947641f4ae99cd8-2015493826',
@@ -33,6 +34,18 @@ const createPreference = async (createPaymentDto, id) => {
   }
 };
 
+
+const processWebhookData = async (webhookData) => {
+  if (webhookData.data.product) {
+    const productId = webhookData.data.product.id;
+    const quantity = webhookData.data.product.quantity;
+    await productService.updateQuantityProduct(productId, quantity);
+  } else {
+    console.error('No se encontró información de producto en el webhook');
+  }
+};
+
 module.exports = {
   createPreference,
+  processWebhookData
 };

@@ -6,6 +6,6 @@ const paymentController = require('../controller/paymentController.js');
 const router = express.Router();
 
 router.post('/create_payment', paymentController.createPayment);
-router.post('/webhook', paymentController.handleWebhook); // Nueva ruta para webhooks
+router.post('/confirmacionPago', paymentController.handleWebhook); 
 
 module.exports = router;
