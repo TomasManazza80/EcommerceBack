@@ -1,4 +1,4 @@
-import createPayment from "../payment/paymentService.js";
+import createPayments from "../payment/paymentService.js";
 
 
 const vexor = require('vexor');
