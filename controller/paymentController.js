@@ -1,6 +1,6 @@
 const vexor = require('vexor');
 const dotenv = require('dotenv');
-const createPaymentFromService = require('../payment/paymentService');
+const {createPaymentFromService} = require('../payment/paymentService');
 const productService = require('../services/productService'); // Asegúrate de que la ruta sea correcta
 
 dotenv.config();
