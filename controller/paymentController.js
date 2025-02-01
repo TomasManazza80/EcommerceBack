@@ -1,9 +1,6 @@
-const express = require('express');
-const router = express.Router();
 const vexor = require('vexor');
 const dotenv = require('dotenv');
 
-const paymentService = require('../payment/paymentService');
 dotenv.config();
 const { Vexor } = vexor;
 
@@ -27,7 +24,7 @@ const createPayment = async (req, res) => {
 
   try {
     console.log('Datos del producto:', product);
-
+    
     const paymentResponse = await vexorInstance.pay.mercadopago({
       items: [
         {
@@ -51,13 +48,33 @@ const createPayment = async (req, res) => {
   }
 };
 
+
+
+
 const handleWebhook = async (req, res) => {
   try {
     const webhookData = req.body;
     console.log('Datos del webhook:', webhookData);
 
-    // Procesa los datos del webhook aquí
-    // Por ejemplo, podrías actualizar el estado del pago en tu base de datos
+    const paymentId = webhookData.data.id;
+
+    // Solicitar detalles del pago
+    const payment = await PaymentService.findPaymentById(paymentId);
+ 
+    if (payment && payment.status === 'approved') {
+      const items = payment.items;
+      console.log('estos son mis Items:', items);
+
+      for (const item of items) {
+        const productId = item.id;
+        const quantityPurchased = item.quantity;
+
+        await productService.updateQuantityProduct(productId, quantityPurchased);
+      }
+    } else {
+      console.error('Estado del pago no aprobado o datos incompletos:', payment);
+      return res.status(400).json({ error: 'Pago no aprobado o datos incompletos' });
+    }
 
     res.status(200).send('Webhook recibido');
   } catch (error) {
@@ -66,4 +83,4 @@ const handleWebhook = async (req, res) => {
   }
 };
 
-module.exports = { createPayment, handleWebhook };
+module.exports = { createPayment, handleWebhook};
