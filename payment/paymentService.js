@@ -46,7 +46,7 @@ const processWebhookData = async (webhookData) => {
 };
 
 const success = async (webhookData) => {
-  const url = 'https://ecommerceback-haed.onrender.com/webhook';
+  const url = 'https://indumentarianam.netlify.app/';
   const data = {
     id: webhookData.id,
     type: webhookData.type,
