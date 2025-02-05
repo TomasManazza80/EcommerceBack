@@ -40,7 +40,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
 app.use(`${API_URL}/`, indexRouter);
-app.use(`${API_URL}/user`, usersRouter);
+app.use(`/`, usersRouter);
 app.use(`${API_URL}/product`, productRouter);
  
 app.use('/payment', paymentRouter);
