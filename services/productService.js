@@ -2,18 +2,19 @@ const { model } = require("../models/index");
 
 const productService = {
  
-  async createProduct(producto) {
-    console.log("lo que recibe el body: ", producto);
+   async createProduct(producto) {
+    console.log("lo que recibe el body######: ", producto);
     try {
-      const { nombre, precio, marca, categoria, cantidad, talle, imagenes } = producto;
+      const { nombre, precio, marca, categoria, cantidad, talle, imagenes, categoryCategoryId } = producto;
       const product = await model.product.create({
         nombre,
         precio,
         marca,
         categoria,
         cantidad,
-        talle,
+        talle,  
         imagenes,
+        categoryCategoryId
       });
       return product;
     } catch (error) {
